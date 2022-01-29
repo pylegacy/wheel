@@ -1,15 +1,26 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+import io
 import os
 import re
-import codecs
 from setuptools import setup
 
-here = os.path.abspath(os.path.dirname(__file__))
-README = codecs.open(os.path.join(here, "README.txt"), encoding="utf8").read()
-CHANGES = codecs.open(os.path.join(here, "CHANGES.txt"), encoding="utf8").read()
 
-with codecs.open(os.path.join(os.path.dirname(__file__), "wheel", "__init__.py"),
-                 encoding="utf8") as version_file:
-    metadata = dict(re.findall(r"""__([a-z]+)__ = "([^"]+)""", version_file.read()))
+def get_content(name, splitlines=False):
+    """Return the file contents with project root as root folder."""
+
+    here = os.path.abspath(os.path.dirname(__file__))
+    path = os.path.join(here, name)
+    with io.open(path, encoding="utf-8") as fd:
+        content = fd.read()
+    if splitlines:
+        content = [row for row in content.splitlines() if row]
+    return content
+
+
+with io.open(os.path.join("wheel", "__init__.py"), encoding="utf-8") as fd:
+    # Read version string without importing.
+    metadata = dict(re.findall(r"""__([a-z]+)__ = "([^"]+)""", fd.read()))
 
 setup(**{
     "name":
@@ -21,7 +32,10 @@ setup(**{
     "description":
         "A built-package format for Python",
     "long_description":
-        README + "\n\n" + CHANGES,
+        "\n\n".join([
+            get_content("README.txt"),
+            get_content("CHANGES.txt"),
+        ]),
     "url":
         "https://bitbucket.org/pypa/wheel/",
     "author":
