@@ -93,10 +93,6 @@ bdist_wheel = wheel.bdist_wheel:bdist_wheel
         "faster-signatures": ["ed25519ll"],
         "tool": [],
     },
-    "tests_require": [
-        "jsonschema",
-        "pytest",
-        "coverage",
-        "pytest-cov",
-    ],
+    "tests_require":
+        get_content("requirements-test.txt", splitlines=True),
 })
