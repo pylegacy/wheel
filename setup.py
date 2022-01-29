@@ -39,6 +39,7 @@ setup(**{
         "Programming Language :: Python :: 3.2",
         "Programming Language :: Python :: 3.3",
         "Programming Language :: Python :: 3.4",
+        "Programming Language :: Python :: 3.5",
     ],
     "keywords": [
         "wheel",
@@ -61,6 +62,13 @@ bdist_wheel = wheel.bdist_wheel:bdist_wheel
         False,
     "include_package_data":
         True,
+    "python_requires":
+        ", ".join([
+            ">=2.6",
+            "!=3.0.*",
+            "!=3.1.*",
+            "<3.6",
+        ]),
     "extras_require": {
         ":python_version=='2.6'": ["argparse"],
         "signatures": ["keyring", "keyrings.alt"],
